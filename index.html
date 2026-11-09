@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Em Ơi Bắt Heo">
+<meta name="theme-color" content="#000000">
+<title>Em Ơi Bắt Heo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--panel:#15151a;--panel2:#1e1e25;--line:#2a2a33;--text:#f2f0ea;--dim:#8f8d96;--amber:#ffb020;--live:#2ee59d;--liveDim:#2ee59d22;--red:#ff5a5a;
+  --st:env(safe-area-inset-top,0px);--sb:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:var(--text);font-family:"Be Vietnam Pro",system-ui,sans-serif;-webkit-font-smoothing:antialiased;height:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+body{display:flex;flex-direction:column;min-height:100dvh}
+header{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--st) + 12px) 16px 10px;border-bottom:1px solid #1a1a20}
+.brand{font-weight:800;font-size:16px;letter-spacing:-.01em}.brand span{color:var(--amber)}
+.conn{font-size:12px;color:var(--dim);display:flex;align-items:center;gap:6px}
+.conn i{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.conn.on i{background:var(--live);box-shadow:0 0 8px var(--live)}
+main{flex:1;display:flex;flex-direction:column;padding-bottom:calc(var(--sb) + 72px)}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;display:grid;grid-template-columns:1fr 1fr;background:#0b0b0eee;backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 10px calc(var(--sb) + 6px);z-index:20}
+nav.bottom button{padding:10px;border-radius:12px;font-weight:700;font-size:15px;color:var(--dim)}
+nav.bottom button.on{background:var(--panel2);color:var(--text)}
+
+/* musician */
+.mus{flex:1;display:flex;flex-direction:column;padding:16px}
+.mtop{display:flex;justify-content:space-between;align-items:center}
+.mtop .k{font-size:13px;color:var(--dim);font-weight:600}
+.mtop .k b{font-family:"Space Grotesk";font-size:24px;color:var(--text);margin-left:6px}
+.pill{font-size:11px;font-weight:800;letter-spacing:.12em;padding:5px 10px;border-radius:20px}
+.pill.on{background:var(--liveDim);color:var(--live)}.pill.off{background:#ffffff12;color:var(--dim)}
+.mname{margin-top:16px;font-size:13px;color:var(--amber);font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.mchords{flex:1;display:grid;gap:10px;margin-top:12px;min-height:300px}
+.mchord{border-radius:18px;background:var(--panel);display:flex;align-items:center;justify-content:center;font-family:"Space Grotesk";font-weight:700;line-height:1;padding:6px;text-align:center}
+.mwait{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px}
+.mwait .tone{font-family:"Space Grotesk";font-size:96px;font-weight:700;line-height:1}
+.mwait .sm{color:var(--dim);font-size:15px}
+.flash{animation:flash .9s ease-out}
+@keyframes flash{0%{box-shadow:inset 0 0 0 999px #2ee59d66}100%{box-shadow:inset 0 0 0 999px transparent}}
+
+/* conductor */
+.cond{padding:16px}
+.step{display:flex;align-items:center;gap:10px;margin:4px 0 10px}
+.step .n{width:24px;height:24px;border-radius:50%;background:var(--amber);color:#1a1200;font-weight:800;font-size:13px;display:grid;place-items:center;flex:none}
+.step .t{font-weight:700;font-size:15px}
+.keys{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:20px}
+.krow .lab{font-size:12px;color:var(--dim);font-weight:600;margin:2px 0 6px}
+.krow+.krow{margin-top:12px}
+.kgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.kgrid button{height:44px;border-radius:10px;background:#000;border:1px solid var(--line);font-family:"Space Grotesk";font-weight:700;font-size:15px}
+.kgrid button.on{background:var(--amber);border-color:var(--amber);color:#1a1200}
+.livebar{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;align-items:center;gap:10px;padding:10px 0;margin-bottom:4px}
+.livebar .msg{font-size:14px;color:var(--dim);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.livebar .msg b{color:var(--live)}
+.stop{padding:10px 14px;border-radius:10px;font-weight:700;font-size:14px;border:1px solid #ff5a5a66;color:var(--red);flex:none}
+.sec{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:16px 0 8px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px}
+.card{position:relative;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px;transition:transform .08s}
+.card:active{transform:scale(.98)}
+.card.isLive{border-color:var(--live);box-shadow:0 0 0 1px var(--live) inset;background:linear-gradient(180deg,var(--liveDim),var(--panel))}
+.card .nm{font-weight:700;font-size:14px;margin-bottom:6px;padding-right:80px;color:#d8d6d0}
+.card .ch{font-family:"Space Grotesk";font-size:20px;font-weight:700;line-height:1.35;word-spacing:5px}
+.card .badge{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;letter-spacing:.1em;padding:3px 7px;border-radius:5px;background:var(--live);color:#00210f}
+.hint{font-size:12.5px;color:var(--dim);line-height:1.5;margin-top:22px;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Em Ơi Bắt Heo <span>●</span></div>
+  <div class="conn" id="conn"><i></i><span>Đang kết nối…</span></div>
+</header>
+<main id="app"></main>
+<nav class="bottom">
+  <button id="tabView" onclick="go('xem')">🎸 Xem hợp âm</button>
+  <button id="tabCtl" onclick="go('dieu-khien')">🎛️ Nhạc trưởng</button>
+</nav>
+<script>
+// ===== Kênh live: ai mở trang này đều chung 1 kênh =====
+const TOPIC="emoibatheo-jam-8w2kizvr21";
+const NTFY="https://ntfy.sh/"+TOPIC;
+
+// ===== Nhạc lý =====
+const SHARP=["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+const FLAT=["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
+const PC={C:0,"C#":1,Db:1,D:2,Eb:3,E:4,F:5,"F#":6,G:7,"G#":8,Ab:8,A:9,Bb:10,B:11};
+const KEYS={maj:["C","Db","D","Eb","E","F","F#","G","Ab","A","Bb","B"],min:["C","C#","D","Eb","E","F","F#","G","G#","A","Bb","B"]};
+const FLATKEYS={maj:["F","Bb","Eb","Ab","Db"],min:["D","G","C","F","Bb","Eb"]};
+const STYLES=["Ballad Việt","Ballad Âu Mỹ","Ballad jazz / R&B","Bolero / Nhạc vàng"];
+// [nửa cung tính từ chủ âm, loại hợp âm, bass (tuỳ chọn)]
+const PROGS=[
+ {id:"a1",mode:"maj",s:0,name:"Vòng Canon",c:[[0,""],[7,""],[9,"m"],[4,"m"],[5,""],[0,""],[5,""],[7,""]]},
+ {id:"a2",mode:"maj",s:0,name:"Canon bass đi xuống",c:[[0,""],[7,"",11],[9,"m"],[0,"",7],[5,""],[0,"",4],[2,"m"],[7,""]]},
+ {id:"a3",mode:"maj",s:0,name:"Vòng 1 – 3 – 4 – 5",c:[[0,""],[4,"m"],[5,""],[7,""]]},
+ {id:"a4",mode:"maj",s:0,name:"Vòng 1 – 6 – 2 – 5",c:[[0,""],[9,"m"],[2,"m"],[7,""]]},
+ {id:"a5",mode:"maj",s:0,name:"Điệp khúc dài",c:[[5,""],[7,""],[4,"m"],[9,"m"],[2,"m"],[7,""],[0,""],[0,""]]},
+ {id:"b1",mode:"maj",s:1,name:"4 hợp âm",c:[[0,""],[7,""],[9,"m"],[5,""]]},
+ {id:"b2",mode:"maj",s:1,name:"Vòng buồn",c:[[9,"m"],[5,""],[0,""],[7,""]]},
+ {id:"b3",mode:"maj",s:1,name:"Vòng 50s",c:[[0,""],[9,"m"],[5,""],[7,""]]},
+ {id:"b4",mode:"maj",s:1,name:"Bắt đầu từ IV",c:[[5,""],[0,""],[7,""],[9,"m"]]},
+ {id:"b5",mode:"maj",s:1,name:"Mượn hợp âm thứ",c:[[0,""],[0,"7"],[5,""],[5,"m"]]},
+ {id:"c1",mode:"maj",s:2,name:"Ballad jazz nhẹ",c:[[0,"maj7"],[9,"m7"],[2,"m7"],[7,"7"]]},
+ {id:"c2",mode:"maj",s:2,name:"Royal Road",c:[[5,"maj7"],[7,"7"],[4,"m7"],[9,"m"]]},
+ {id:"c3",mode:"maj",s:2,name:"Bass đi xuống R&B",c:[[5,"maj7"],[4,"m7"],[2,"m7"],[0,"maj7"]]},
+ {id:"c4",mode:"maj",s:2,name:"Neo-soul",c:[[2,"m9"],[7,"13"],[0,"maj9"],[9,"m9"]]},
+ {id:"d1",mode:"maj",s:3,name:"Trưởng cơ bản",c:[[0,""],[5,""],[7,""],[0,""]]},
+ {id:"d2",mode:"maj",s:3,name:"Trưởng có 6 thứ",c:[[0,""],[9,"m"],[5,""],[7,"7"]]},
+ {id:"e1",mode:"min",s:0,name:"Ballad thứ",c:[[0,"m"],[8,""],[3,""],[10,""]]},
+ {id:"e2",mode:"min",s:0,name:"Thứ buồn",c:[[0,"m"],[5,"m"],[10,""],[3,""]]},
+ {id:"e3",mode:"min",s:0,name:"Thứ kết về V",c:[[0,"m"],[8,""],[5,"m"],[7,""]]},
+ {id:"e4",mode:"min",s:0,name:"Vòng quãng 5 dài",c:[[0,"m"],[5,"m"],[10,""],[3,""],[8,""],[5,"m"],[7,""],[7,"7"]]},
+ {id:"e5",mode:"min",s:0,name:"Thứ bass đi xuống",c:[[0,"m"],[0,"m",10],[8,""],[7,""]]},
+ {id:"f1",mode:"min",s:1,name:"Andalusian",c:[[0,"m"],[10,""],[8,""],[7,""]]},
+ {id:"f2",mode:"min",s:1,name:"Thứ sang trưởng",c:[[0,"m"],[3,""],[10,""],[8,""]]},
+ {id:"f3",mode:"min",s:1,name:"Thứ lặp",c:[[0,"m"],[10,""],[8,""],[10,""]]},
+ {id:"g1",mode:"min",s:2,name:"ii – V – i thứ",c:[[2,"m7b5"],[7,"7"],[0,"m7"],[0,"m7"]]},
+ {id:"g2",mode:"min",s:2,name:"R&B thứ",c:[[0,"m7"],[5,"m7"],[10,"7"],[3,"maj7"]]},
+ {id:"g3",mode:"min",s:2,name:"Thứ mượt",c:[[0,"m9"],[8,"maj7"],[5,"m7"],[7,"7"]]},
+ {id:"h1",mode:"min",s:3,name:"Bolero cơ bản",c:[[0,"m"],[5,"m"],[7,""],[0,"m"]]},
+ {id:"h2",mode:"min",s:3,name:"Bolero vòng dài",c:[[0,"m"],[5,"m"],[10,""],[3,""],[5,"m"],[7,""],[0,"m"],[0,"m"]]},
+ {id:"h3",mode:"min",s:3,name:"Bolero chuyển trưởng",c:[[0,"m"],[3,""],[5,"m"],[7,"7"]]},
+];
+const byId=id=>PROGS.find(p=>p.id===id);
+const pretty=s=>s.replace(/([A-G])b/g,"$1♭").replace(/#/g,"♯");
+const keyName=st=>pretty(st.key)+(st.mode==="min"?"m":"");
+function chords(st,p){
+  const names=FLATKEYS[st.mode].includes(st.key)?FLAT:SHARP,t=PC[st.key];
+  return p.c.map(([r,q,b])=>pretty(names[(t+r)%12]+q.replace("m7b5","m7♭5")+(b!==undefined?"/"+names[(t+b)%12]:"")));
+}
+// chỉ nhận dữ liệu đúng dạng
+function clean(s){
+  if(!s||typeof s!=="object")return null;
+  const mode=s.mode==="min"?"min":"maj";
+  const key=KEYS[mode].includes(s.key)?s.key:null;
+  const p=s.current&&byId(s.current.id);
+  return {key,mode,current:key&&p&&p.mode===mode?{id:p.id,at:+s.current.at||0}:null};
+}
+
+// ===== Trạng thái + live =====
+let state={key:null,mode:"maj",current:null};
+let gotLive=false, connected=false, es=null;
+
+function apply(s){const c=clean(s);if(!c)return;state=c;render();}
+function send(){
+  fetch(NTFY,{method:"POST",body:JSON.stringify(state)})
+    .then(r=>{if(!r.ok)throw 0;setConn(true);})
+    .catch(()=>{setConn(false);toast("Chưa gửi được, kiểm tra mạng");});
+}
+function set(p){state={...state,...p};render();send();}
+function pickKey(key,mode){set({key,mode,current:mode===state.mode?state.current:null});}
+const goLive=id=>set({current:{id,at:Date.now()}});
+const stop=()=>set({current:null});
+
+async function pollLatest(){
+  try{
+    const r=await fetch(NTFY+"/json?poll=1&since=latest");
+    const lines=(await r.text()).trim().split("\n").filter(Boolean);
+    const last=lines.length&&JSON.parse(lines[lines.length-1]);
+    if(last&&last.event==="message"&&!gotLive){apply(JSON.parse(last.message));}
+  }catch(e){}
+}
+function connect(){
+  if(es)es.close();
+  es=new EventSource(NTFY+"/sse");
+  es.onopen=()=>{setConn(true);pollLatest();};
+  es.onmessage=e=>{
+    try{const m=JSON.parse(e.data);
+      if(m.event==="message"){gotLive=true;apply(JSON.parse(m.message));}
+    }catch(err){}
+  };
+  es.onerror=()=>{setConn(false);};
+}
+function setConn(on){
+  connected=on;
+  const el=document.getElementById("conn");
+  el.className="conn"+(on?" on":"");
+  el.lastChild.textContent=on?"Live":"Mất kết nối…";
+}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){if(!es||es.readyState===2)connect();gotLive=false;pollLatest();keepAwake();}});
+
+// giữ màn hình sáng khi đang diễn
+let lock=null;
+async function keepAwake(){try{if("wakeLock" in navigator&&!lock){lock=await navigator.wakeLock.request("screen");lock.addEventListener("release",()=>lock=null);}}catch(e){}}
+document.addEventListener("click",keepAwake);
+
+function toast(t){const d=document.createElement("div");d.textContent=t;
+  d.style.cssText="position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#ff5a5a;color:#fff;padding:10px 14px;border-radius:10px;font-weight:600;font-size:14px;z-index:50";
+  document.body.appendChild(d);setTimeout(()=>d.remove(),2500);}
+
+// ===== Giao diện =====
+const app=document.getElementById("app");
+const view=()=>location.hash==="#dieu-khien"?"ctl":"view";
+function go(h){location.hash=h;}
+addEventListener("hashchange",render);
+
+function conductorHTML(){
+  const st=state,cur=st.current&&byId(st.current.id);
+  const row=(mode,lab)=>`<div class="krow"><div class="lab">${lab}</div><div class="kgrid">${KEYS[mode].map(k=>
+    `<button class="${st.key===k&&st.mode===mode?"on":""}" onclick="pickKey('${k}','${mode}')">${pretty(k)}${mode==="min"?"m":""}</button>`).join("")}</div></div>`;
+  let out=`<div class="step"><div class="n">1</div><div class="t">Chọn tông</div></div>
+    <div class="keys">${row("maj","Trưởng")}${row("min","Thứ")}</div>`;
+  if(!st.key)return `<div class="cond">${out}</div>`;
+  out+=`<div class="step"><div class="n">2</div><div class="t">Chạm vòng, cả band đổi theo</div></div>
+    <div class="livebar"><div class="msg">${cur?`Đang chơi: <b>${cur.name}</b>`:`Tông ${keyName(st)} · đang chơi bài`}</div>
+    ${cur?`<button class="stop" onclick="stop()">■ Về bài</button>`:""}</div>`;
+  STYLES.forEach((sn,si)=>{
+    const ps=PROGS.filter(p=>p.mode===st.mode&&p.s===si);if(!ps.length)return;
+    out+=`<div class="sec">${sn}</div><div class="grid">${ps.map(p=>{const on=cur&&cur.id===p.id;
+      return `<button class="card ${on?"isLive":""}" onclick="goLive('${p.id}')">${on?'<span class="badge">ĐANG CHƠI</span>':""}
+      <div class="nm">${p.name}</div><div class="ch">${chords(st,p).join("  ")}</div></button>`;}).join("")}</div>`;
+  });
+  return `<div class="cond">${out}<div class="hint">Ai mở link này cũng thấy vòng m chọn.</div></div>`;
+}
+function musicianHTML(){
+  const st=state,cur=st.current&&byId(st.current.id);
+  let body;
+  if(!st.key) body=`<div class="mwait"><div style="font-size:48px">🎸</div><div class="sm">Chờ nhạc trưởng chọn tông…</div></div>`;
+  else if(!cur) body=`<div class="mwait"><div class="sm">Tông</div><div class="tone">${keyName(st)}</div><div class="sm" style="margin-top:14px">Đang chơi bài · chờ hiệu lệnh</div></div>`;
+  else{
+    const cs=chords(st,cur),n=cs.length,cols=n<=4?1:2,rows=Math.ceil(n/cols),long=cs.some(c=>c.length>4);
+    const w=Math.min(innerWidth,700);
+    const size=n<=4?Math.min(long?0.15*w:0.2*w,110):Math.min(long?0.075*w:0.11*w,64);
+    body=`<div class="mname">${cur.name}</div><div class="mchords" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},minmax(0,1fr))">
+      ${cs.map(c=>`<div class="mchord" style="font-size:${Math.round(size)}px">${c}</div>`).join("")}</div>`;
+  }
+  return `<div class="mus" data-sig="${cur?cur.id+cur.at:st.key||"none"}">
+    <div class="mtop"><div class="k">${st.key?`Tông<b>${keyName(st)}</b>`:""}</div>
+    <div class="pill ${cur?"on":"off"}">${cur?"JAM":"BÀI"}</div></div>${body}</div>`;
+}
+let lastSig;
+function render(){
+  const v=view();
+  document.getElementById("tabView").classList.toggle("on",v==="view");
+  document.getElementById("tabCtl").classList.toggle("on",v==="ctl");
+  const y=scrollY;
+  app.innerHTML=v==="ctl"?conductorHTML():musicianHTML();
+  if(v==="ctl")scrollTo(0,y);
+  const m=app.querySelector(".mus");
+  if(m){if(lastSig!==undefined&&lastSig!==m.dataset.sig)m.classList.add("flash");lastSig=m.dataset.sig;}
+  else lastSig=undefined;
+}
+addEventListener("resize",()=>{if(view()==="view")render();});
+render();connect();
+</script>
+</body>
+</html>
